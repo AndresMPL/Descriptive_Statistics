@@ -120,6 +120,7 @@
 
 
 #5 - Diagramas----
+#En otroo script profundizaré respecto a diagramas
   
   #Diagramas de barras
   barplot(table(base2018$SEXO), col=c("#00008B","#CD3333", "#458B00"),
@@ -131,4 +132,26 @@
       main="Estudio de Nacimientos.\n Distribución por sexos.")
 
 
+  
+  #Diagrama de barras 2 variables - Frecuencia absoluta
+  library(RColorBrewer)
+  coul <- brewer.pal(5, "Dark2")
+  
+  barplot(table(base2018$TIPO_PARTO, base2018$SEXO),
+          beside=TRUE,
+          legend=TRUE,
+          xlab="Sexo de nacimiento", 
+          ylab="Frecuencia",
+          col= coul, 
+          main="Distribución de nacimientos 2018 \n Según sexo y tipo de parto")
+  
+  
+  #Diagrama de barras 2 variables - Frecuencia relativa
+  tb2=with(telde,prop.table(table(SEXO,DM),2))
+  barplot(tb2,beside=TRUE,legend=TRUE,ylim=c(0,1),
+          xlab="Presencia de DM2", ylab="Proporción muestral",
+          col=c("lightblue","pink"), 
+          main="Estudio de Tede \nDistribución de sexos según presencia de DM2")
+  
+  
 #6 - Histogramas----
