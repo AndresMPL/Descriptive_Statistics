@@ -120,7 +120,7 @@
 
 
 #5 - Diagramas----
-#En otroo script profundizaré respecto a diagramas
+#En otro script profundizaré respecto a diagramas
   
   #Diagramas de barras
   barplot(table(base2018$SEXO), col=c("#00008B","#CD3333", "#458B00"),
