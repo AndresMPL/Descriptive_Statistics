@@ -11,6 +11,7 @@
 
   #Cargamos paquetes y librerías necesarios
   library(pacman)
+  library(RColorBrewer) #La usaremos para paletas de colores
   p_load(dplyr)
 
   #Cargamos y limpiamos los datos que trabajaremos
@@ -76,15 +77,18 @@
   
   #Cuando no tenemos una tabla específica creada
   prop.table(table(base2018$SEXO))  
+  prop.table(table(base2018$SEXO))*100  #Esta es una forma de acercar el resultado a un valor porcentual (aun falta el signo %)
   
   #Utilizando una tabla específica
   tab1 <- table(base2018$SEXO)
+  tab1
   prop.table(tab1)
   
   
   ##Tabla de 2 variables----
   
   tab2 <- table(base2018$SEG_SOCIAL, base2018$AREA_RES)
+  tab2
   
   #Porcentajes globales
   prop.table(x = table(base2018$SEG_SOCIAL, base2018$AREA_RES))
@@ -123,35 +127,55 @@
 #En otro script profundizaré respecto a diagramas
   
   #Diagramas de barras
-  barplot(table(base2018$SEXO), col=c("#00008B","#CD3333", "#458B00"),
+  barplot(table(base2018$SEXO), col=c("#00008B","#CD3333", "#458B00"), #Ejemplo 1
           xlab="Sexo", ylab="Frecuencia", 
           main="Estudio de Nacimientos.\n Distribución por sexos.")
+  
+  barplot(table(base2018$AREA_RES),                                   #Ejemplo 2
+          xlab="Area de Residencia", ylab="Frecuencia", 
+          main="Estudio de Nacimientos.\n Distribución según área de residencia.")
   
   #Diagrama circular
   pie(table(base2018$SEXO), col=c("lightblue","pink", "#F0E68C"),
       main="Estudio de Nacimientos.\n Distribución por sexos.")
 
-
+  coul1 <- brewer.pal(5, "Pastel2")
+  pie(table(base2018$AREA_RES),col=coul1,
+      main="Estudio de Nacimientos.\n Distribución según área de residencia.")
   
   #Diagrama de barras 2 variables - Frecuencia absoluta
-  library(RColorBrewer)
-  coul <- brewer.pal(5, "Dark2")
   
+  coul2 <- brewer.pal(5, "Dark2")
   barplot(table(base2018$TIPO_PARTO, base2018$SEXO),
           beside=TRUE,
           legend=TRUE,
           xlab="Sexo de nacimiento", 
           ylab="Frecuencia",
-          col= coul, 
+          col= coul2, 
           main="Distribución de nacimientos 2018 \n Según sexo y tipo de parto")
   
   
   #Diagrama de barras 2 variables - Frecuencia relativa
-  tb2=with(telde,prop.table(table(SEXO,DM),2))
-  barplot(tb2,beside=TRUE,legend=TRUE,ylim=c(0,1),
-          xlab="Presencia de DM2", ylab="Proporción muestral",
-          col=c("lightblue","pink"), 
-          main="Estudio de Tede \nDistribución de sexos según presencia de DM2")
+  tab3 = with(base2018,prop.table(table(SEXO, TIPO_PARTO),2)) #Especificamos al final "2" porcentaje por columna 
+  coul3 <- brewer.pal(3, "RdBu")
+  barplot(tab3,
+          beside = TRUE,               #Especifica si las columnas deben ser yuxtapuestas
+          legend = TRUE,               #Leyenda con la clave de de las series
+          ylim = c(0,1),               #Valor mínimo y máximo para el eje Y
+          xlab = "Sexo de nacimiento", 
+          ylab="Proporción del resultado",
+          col=coul3, 
+          main="Distribución de nacimientos 2018 \n Según tipo de parto y sexo de nacimiento")
+  
+  #Para el siguiente ejemplo utilizo una manera diferente de definir los colores
+  tab4 = with(base2018,prop.table(table(TIPO_PARTO, SEXO),2)) #Especificamos al final "2" porcentaje por columna 
+  barplot(tab4,
+          beside = TRUE,               #Especifica si las columnas deben ser yuxtapuestas
+          legend = TRUE,               #Leyenda con la clave de de las series
+          ylim = c(0,1),               #Valor mínimo y máximo para el eje Y
+          xlab = "Sexo de nacimiento", 
+          ylab="Proporción del resultado",
+          col=c("#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641"),
+          main="Distribución de nacimientos 2018 \n Según tipo de parto y sexo de nacimiento")
   
   
-#6 - Histogramas----
